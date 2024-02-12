@@ -5,13 +5,16 @@ using Unity.Netcode;
 
 public class PlayerController : NetworkBehaviour
 {
+    public GameObject FaceColor;
     public CharacterController Controller;
     public float speed;
     public float ObjectiveCollected = 0;
+    private LoginManagerScript LoginManagerScript;
 
     // Update is called once per frame
     void Update()
     {
+
         if (IsOwner)
         {
             float horizontal = Input.GetAxisRaw("Horizontal");
@@ -24,6 +27,7 @@ public class PlayerController : NetworkBehaviour
             }
 
         }
+        EyeColorChange();
     }
 
     public void OnTriggerEnter(Collider other)
@@ -38,6 +42,15 @@ public class PlayerController : NetworkBehaviour
         if (collision.collider.CompareTag("Objective"))
         {
             ObjectiveCollected = +1;
+        }
+    }
+    public void EyeColorChange()
+    {
+        if (IsOwner) { 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+                Debug.Log("Eye Color Changed");
+        }
         }
     }
 }
