@@ -5,11 +5,13 @@ using Unity.Netcode;
 
 public class PlayerController : NetworkBehaviour
 {
-    public GameObject FaceColor;
+    public Material FaceColor;
     public CharacterController Controller;
     public float speed;
     public float ObjectiveCollected = 0;
     private LoginManagerScript LoginManagerScript;
+
+
 
     // Update is called once per frame
     void Update()
@@ -49,8 +51,12 @@ public class PlayerController : NetworkBehaviour
         if (IsOwner) { 
         if (Input.GetKeyDown(KeyCode.F))
         {
-                Debug.Log("Eye Color Changed");
+                FaceColor.color = Color.red;
         }
+            else if(Input.GetKeyUp(KeyCode.F))
+            {
+                FaceColor.color = Color.blue;
+            }
         }
     }
 }
