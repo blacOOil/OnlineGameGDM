@@ -12,7 +12,9 @@ public class PlayerController : NetworkBehaviour
     private LoginManagerScript LoginManagerScript;
 
 
-
+    private NetworkVariable<int> PlayerEyecolor = new NetworkVariable<int>(
+       0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner
+       );
     // Update is called once per frame
     void Update()
     {

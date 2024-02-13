@@ -10,7 +10,7 @@ public class MainPlayerScript : NetworkBehaviour
     public string OwnerNameDisplay;
     public float speed = 5.0f;
     public float rotationSpeed = 10.0f;
-    Rigidbody rb;
+ 
     public TMP_Text namePrefab;
     private TMP_InputField NameInput;
     private TMP_Text nameLabel;
@@ -37,11 +37,11 @@ public class MainPlayerScript : NetworkBehaviour
             return info.ToString();
         }
     }
-    private NetworkVariable<NetworkString> playernameA = new NetworkVariable<NetworkString>(
+    public NetworkVariable<NetworkString> playernameA = new NetworkVariable<NetworkString>(
         new NetworkString { info = "Player" },
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
-    private NetworkVariable<NetworkString> playernameB = new NetworkVariable<NetworkString>(
+    public NetworkVariable<NetworkString> playernameB = new NetworkVariable<NetworkString>(
         new NetworkString { info = "Player" },
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     private LoginManagerScript loginManagerScripts;
@@ -81,9 +81,29 @@ public class MainPlayerScript : NetworkBehaviour
         if (IsOwner)
         {
             posX.Value = (int)System.Math.Ceiling(transform.position.x);
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                TestServerRpc();
+            }
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                ClientRpcSendParams clientRpcSendParams = new ClientRpcSendParams { TargetClientIds = new List<ulong> { 1 } };
+                ClientRpcParams clientRpcParams = new ClientRpcParams { Send = clientRpcSendParams };
+                TestClientRpc("Hi", clientRpcParams);
+            }
         }
        
         UpdatePlayerInfo();
+    }
+    [ClientRpc]
+    private void TestClientRpc(string msg,ClientRpcParams clientRpcParams)
+    {
+        Debug.Log("Msg from server = " + msg);
+    }
+    [ServerRpc]
+    private void TestServerRpc()
+    {
+        Debug.Log("Test server RPC from Client = " + OwnerClientId);
     }
     private void UpdatePlayerInfo()
     {
@@ -103,5 +123,15 @@ public class MainPlayerScript : NetworkBehaviour
     {
         string username = NameInput.GetComponent<TMP_InputField>().text;
         OwnerNameDisplay = username;
+    }
+    private void OnEnable()
+    {
+        if (nameLabel != null)
+            nameLabel.enabled = true;
+    }
+    private void OnDisable()
+    {
+        if(nameLabel != null)
+            nameLabel.enabled = falsel
     }
 }

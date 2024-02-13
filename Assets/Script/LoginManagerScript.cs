@@ -19,15 +19,30 @@ public class LoginManagerScript : MonoBehaviour
     private bool isApproveConnection = false;
     [Command("set-approve")]
 
-    public GameObject Loginpanel, leaveButton;
+    public GameObject Loginpanel, leaveButton,Scorepanel;
 
     public void Start()
     {
         NetworkManager.Singleton.OnServerStarted += HandleServerStarted;
         NetworkManager.Singleton.OnClientConnectedCallback += HandhelClientConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback += HandleClientDisconnect;
-        Loginpanel.SetActive(true);
-        leaveButton.SetActive(false);
+        SetUIVisible(false);
+    }
+    public void SetUIVisible(bool isUserLogin)
+    {
+        if (isUserLogin)
+        {
+        Loginpanel.SetActive(false);
+        leaveButton.SetActive(true);
+            Scorepanel.SetActive(true);
+        }
+        else
+        {
+            Loginpanel.SetActive(true);
+            leaveButton.SetActive(false);
+            Scorepanel.SetActive(false);
+        }
+        
     }
     public void CharacterSelect(int val)
     {
@@ -92,8 +107,7 @@ public class LoginManagerScript : MonoBehaviour
             NetworkManager.Singleton.Shutdown();
         }
 
-        Loginpanel.SetActive(true);
-        leaveButton.SetActive(false);
+        SetUIVisible(false);
     }
 
     private void OnDestroy()
@@ -108,8 +122,7 @@ public class LoginManagerScript : MonoBehaviour
     {
         if (clientId == NetworkManager.Singleton.LocalClientId)
         {
-        Loginpanel.SetActive(false);
-        leaveButton.SetActive(true);
+            SetUIVisible(true);
         }
         
     }

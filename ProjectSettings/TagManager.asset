@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Objective
   - MainCanvas
+  - DeathZone
   layers:
   - Default
   - TransparentFX
