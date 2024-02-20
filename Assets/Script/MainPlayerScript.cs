@@ -131,7 +131,7 @@ public class MainPlayerScript : NetworkBehaviour
     }
     private void OnDisable()
     {
-        if(nameLabel != null)
-            nameLabel.enabled = falsel
+        if (nameLabel != null)
+            nameLabel.enabled = false;
     }
 }

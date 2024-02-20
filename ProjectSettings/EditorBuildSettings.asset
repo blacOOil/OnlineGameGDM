@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LevelLoginTutorial.unity
     guid: 5ade0867c628ee54ea0e8fba3445279a
+  - enabled: 1
+    path: Assets/HorrorOnlineGame/TheRoom.unity
+    guid: 8dce9ac29c39218419515e50241580ee
   m_configObjects: {}

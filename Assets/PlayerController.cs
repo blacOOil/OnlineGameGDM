@@ -31,7 +31,7 @@ public class PlayerController : NetworkBehaviour
             }
 
         }
-        EyeColorChange();
+
     }
 
     public void OnTriggerEnter(Collider other)

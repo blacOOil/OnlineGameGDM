@@ -59,4 +59,22 @@ public class HPPlayerScript : NetworkBehaviour
             gameObject.GetComponent<SpawnerScript>().Respawn();
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!IsLocalPlayer) return;
+
+        if (other.gameObject.CompareTag("DeathZone"))
+        {
+
+            if (IsOwnedByServer)
+            {
+                hpP1.Value--;
+            }
+            else
+            {
+                hpP2.Value--;
+            }
+            gameObject.GetComponent<SpawnerScript>().Respawn();
+        }
+    }
 }
