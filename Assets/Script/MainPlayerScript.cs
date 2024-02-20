@@ -53,7 +53,7 @@ public class MainPlayerScript : NetworkBehaviour
 
         posX.OnValueChanged += (int previousValue, int newValue) =>
         {
-            Debug.Log("Owner ID = " + OwnerClientId + ": PosX = " + posX.Value);
+            //Debug.Log("Owner ID = " + OwnerClientId + ": PosX = " + posX.Value);
         };
         //  if (IsServer)
         //{
