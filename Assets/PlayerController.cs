@@ -12,6 +12,8 @@ public class PlayerController : NetworkBehaviour
     public float ObjectiveCollected = 0;
     public float mouseSensitivity = 100f;
 
+    public GameObject playerCam;
+
     Vector3 moveDirection = Vector3.zero;
     public float lookSpeed = 2f;
     public float lookXLimit = 45f;
@@ -21,15 +23,17 @@ public class PlayerController : NetworkBehaviour
 
     void Start()
     {
-
-       
+        playerCam.SetActive(false);
         runSpeed = speed + 10;
         canMove = true;
-        
     }
 
     void FixedUpdate()
     {
+        if (IsLocalPlayer)
+        {
+            playerCam.SetActive(true);
+        }
         PlayerMovementing();
     }
 
@@ -38,10 +42,10 @@ public class PlayerController : NetworkBehaviour
         if (IsOwnedByServer || IsClient) // Combined condition for server and client
         {
             //Debug.Log("Moving...");
-           // rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
-            //rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
+           rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
+           rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
             
-            //transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+            transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
 
             Vector3 forward = transform.TransformDirection(Vector3.forward);
             Vector3 right = transform.TransformDirection(Vector3.right);
@@ -73,4 +77,5 @@ public class PlayerController : NetworkBehaviour
             Debug.Log("Objective collision! Total: " + ObjectiveCollected);
         }
     }
+
 }
