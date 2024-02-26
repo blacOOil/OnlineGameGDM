@@ -5,24 +5,54 @@ using Unity.Netcode;
 
 public class PlayerController : NetworkBehaviour
 {
+    
     public CharacterController Controller;
     public float speed;
+    public float runSpeed;
     public float ObjectiveCollected = 0;
+    public float mouseSensitivity = 100f;
 
-    // Update is called once per frame
-    void Update()
+    Vector3 moveDirection = Vector3.zero;
+    public float lookSpeed = 2f;
+    public float lookXLimit = 45f;
+
+    float rotationX = 0;
+    public bool canMove = true;
+
+    void Start()
     {
-        if (IsOwner)
+
+       
+        runSpeed = speed + 10;
+        canMove = true;
+        
+    }
+
+    void FixedUpdate()
+    {
+        PlayerMovementing();
+    }
+
+    void PlayerMovementing()
+    {
+        if (IsOwnedByServer || IsClient) // Combined condition for server and client
         {
-            float horizontal = Input.GetAxisRaw("Horizontal");
-            float vertical = Input.GetAxisRaw("Vertical");
-            Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+            //Debug.Log("Moving...");
+           // rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
+            //rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
+            
+            //transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
 
-            if (direction.magnitude >= 0.1f)
-            {
-                Controller.Move(direction * speed * Time.deltaTime);
-            }
+            Vector3 forward = transform.TransformDirection(Vector3.forward);
+            Vector3 right = transform.TransformDirection(Vector3.right);
 
+            bool isRunning = Input.GetKey(KeyCode.LeftShift);
+            float curSpeedX = canMove ? (isRunning ? runSpeed : speed) * Input.GetAxis("Vertical") : 0;
+            float curSpeedY = canMove ? (isRunning ? runSpeed : speed) * Input.GetAxis("Horizontal") : 0;
+
+            float movementDirectionY = moveDirection.y;
+            moveDirection = (forward * curSpeedX) + (right * curSpeedY);
+            Controller.Move(moveDirection * Time.deltaTime);
         }
     }
 
@@ -30,14 +60,17 @@ public class PlayerController : NetworkBehaviour
     {
         if (other.CompareTag("Objective"))
         {
-            ObjectiveCollected =+1;
+            ObjectiveCollected += 1;
+            Debug.Log("Objective collected! Total: " + ObjectiveCollected);
         }
     }
+
     public void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Objective"))
         {
-            ObjectiveCollected = +1;
+            ObjectiveCollected += 1;
+            Debug.Log("Objective collision! Total: " + ObjectiveCollected);
         }
     }
 }
