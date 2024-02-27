@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1035976306951942372}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.006612095, y: -0.079491675, z: 0.40151528}
+  m_LocalPosition: {x: -0.006612095, y: 0.849, z: 0.40151528}
   m_LocalScale: {x: 0.4164758, y: 0.82959676, z: 0.43599582}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -211,10 +211,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.6394115
-  m_Height: 2.5473447
+  m_Radius: 0.54173774
+  m_Height: 3.0697973
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0.0737373}
+  m_Center: {x: 0, y: 0.2612278, z: -0.028514802}
 --- !u!54 &3184368672408843640
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -323,7 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3192165418
+  GlobalObjectIdHash: 2818427836
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -372,8 +372,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.3133762, y: 2.5315764, z: 2.6941895}
-  m_Center: {x: -0.09250677, y: 0.91844857, z: 0.13702804}
+  m_Size: {x: 2.7397938, y: 2.5315764, z: 2.954124}
+  m_Center: {x: -0.08713579, y: 0.91844857, z: 0.2669952}
 --- !u!143 &2183506836474407731
 CharacterController:
   m_ObjectHideFlags: 0
@@ -448,12 +448,12 @@ PrefabInstance:
     - target: {fileID: 8132300192119918419, guid: 2209ba8349f99dc4fa9b259f41410301,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.021
+      value: 2.23
       objectReference: {fileID: 0}
     - target: {fileID: 8132300192119918419, guid: 2209ba8349f99dc4fa9b259f41410301,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.55
+      value: 0.19
       objectReference: {fileID: 0}
     - target: {fileID: 8132300192119918419, guid: 2209ba8349f99dc4fa9b259f41410301,
         type: 3}
