@@ -237,7 +237,7 @@ public class LoginManagerScript : MonoBehaviour
     {
         Vector3 spawnpos = Vector3.zero;
         Quaternion spawnRot = Quaternion.identity;
-        int SpawnerRandom = Random.Range(0,Spawner.Length);
+        int SpawnerRandom = Random.Range(1,Spawner.Length);
         if (clientId == NetworkManager.Singleton.LocalClientId)
         {
             spawnpos = Spawner[SpawnerRandom].transform.position; spawnRot = Spawner[SpawnerRandom].transform.rotation;

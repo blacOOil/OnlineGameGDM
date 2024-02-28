@@ -26,6 +26,9 @@ public class PlayerController : NetworkBehaviour
         playerCam.SetActive(false);
         runSpeed = speed + 10;
         canMove = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
     }
 
     void FixedUpdate()
@@ -44,7 +47,7 @@ public class PlayerController : NetworkBehaviour
             //Debug.Log("Moving...");
            rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
            rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-            
+            playerCam.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
 
             Vector3 forward = transform.TransformDirection(Vector3.forward);
