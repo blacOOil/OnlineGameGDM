@@ -7,27 +7,37 @@ using TMPro;
 
 public class LoginManagerScript : MonoBehaviour
 {
-    public GameObject[] Spawner;
-  
     public int characterPrefabIndex,clientCharaterPrefabIndex;
     public string characterSelectionIndex;
     
+    [Header("Online-Sections")]
     public List<uint> AlternativePlayerPrefabs;
-    public TMP_InputField userNameInputField,PassCodeInputField;
+    public TMP_InputField userNameInputField;
+    public TMP_InputField passCodeInputField;
+    public GameObject[] spawnPoint;
+
+    [Header("UI-Prefabs")]
+    public GameObject loginPanel;
+    public GameObject scorePanel;
+    public GameObject leaveButton;
+    public GameObject mainmenuPanel;
+    public GameObject playButton;
+    public GameObject settingsButton;
+    public GameObject quitButton;
+    public GameObject settingsPanel;
+    public GameObject backButton;
+
     public TMP_Dropdown ColorSelector;
    
     private bool isApproveConnection = false;
     [Command("set-approve")]
-
-    public GameObject Loginpanel, leaveButton;
 
     public void Start()
     {
         NetworkManager.Singleton.OnServerStarted += HandleServerStarted;
         NetworkManager.Singleton.OnClientConnectedCallback += HandhelClientConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback += HandleClientDisconnect;
-        Loginpanel.SetActive(true);
-        leaveButton.SetActive(false);
+        SetUIMainMenuVisible(false);
     }
     public void CharacterSelect(int val)
     {
@@ -64,17 +74,6 @@ public class LoginManagerScript : MonoBehaviour
                 break;
         }
     }
-    private void HandleClientDisconnect(ulong clientId)
-    {
-        if (NetworkManager.Singleton.IsHost)
-        {
-           
-        }
-        else if (NetworkManager.Singleton.IsClient)
-        {
-            Leave();
-        }
-    }
 
     private void HandleServerStarted()
     {
@@ -92,8 +91,33 @@ public class LoginManagerScript : MonoBehaviour
             NetworkManager.Singleton.Shutdown();
         }
 
-        Loginpanel.SetActive(true);
-        leaveButton.SetActive(false);
+        SetUILoginVisible(false);
+    }
+
+    public void SetUILoginVisible(bool isUserLogin) {
+        if (isUserLogin) {
+            loginPanel.SetActive(false);
+            leaveButton.SetActive(true);
+            scorePanel.SetActive(true);
+        } else {
+            loginPanel.SetActive(true);
+            leaveButton.SetActive(false);
+            scorePanel.SetActive(false);
+        }
+    }
+
+    public void SetUIMainMenuVisible(bool isUserLogin) {
+        if (isUserLogin) {
+            mainmenuPanel.SetActive(false);
+            playButton.SetActive(false);
+            settingsButton.SetActive(false);
+            quitButton.SetActive(false);
+        } else {
+            mainmenuPanel.SetActive(true);
+            playButton.SetActive(true);
+            settingsButton.SetActive(true);
+            quitButton.SetActive(true);
+        }
     }
 
     private void OnDestroy()
@@ -108,10 +132,21 @@ public class LoginManagerScript : MonoBehaviour
     {
         if (clientId == NetworkManager.Singleton.LocalClientId)
         {
-        Loginpanel.SetActive(false);
-        leaveButton.SetActive(true);
+        SetUILoginVisible(true);
         }
         
+    }
+
+    private void HandleClientDisconnect(ulong clientId)
+    {
+        if (NetworkManager.Singleton.IsHost)
+        {
+           
+        }
+        else if (NetworkManager.Singleton.IsClient)
+        {
+            Leave();
+        }
     }
 
     public bool SetIsApproveConnection()
@@ -119,10 +154,11 @@ public class LoginManagerScript : MonoBehaviour
         isApproveConnection = !isApproveConnection;
         return isApproveConnection;
     }
+
     public void Host()
     {
         string username = userNameInputField.GetComponent<TMP_InputField>().text;
-        string Passcode = PassCodeInputField.GetComponent<TMP_InputField>().text;
+        string Passcode = passCodeInputField.GetComponent<TMP_InputField>().text;
         string connectionData = username + "|" + Passcode;
         NetworkManager.Singleton.NetworkConfig.ConnectionData = System.Text.Encoding.ASCII.GetBytes(connectionData);
         
@@ -147,7 +183,7 @@ public class LoginManagerScript : MonoBehaviour
         {
            
             string[] data = System.Text.Encoding.ASCII.GetString(connectionData, 0, byteLength).Split('|');
-            string hostPassword = PassCodeInputField.GetComponent<TMP_InputField>().text;
+            string hostPassword = passCodeInputField.GetComponent<TMP_InputField>().text;
             string hostData = userNameInputField.text;
             isApprove = ApproveConnection(data, hostData, hostPassword);
             ClientCharacterSelect(0);
@@ -158,15 +194,14 @@ public class LoginManagerScript : MonoBehaviour
         }
         else
         {
-      
-        if (NetworkManager.Singleton.IsHost)
-        {
-            CharacterSelect(0);
-            response.PlayerPrefabHash = AlternativePlayerPrefabs[characterPrefabIndex];
-            Debug.Log("Host as: " + characterPrefabIndex);
-           
-        } 
-         }
+            if (NetworkManager.Singleton.IsHost)
+            {
+                CharacterSelect(0);
+                response.PlayerPrefabHash = AlternativePlayerPrefabs[characterPrefabIndex];
+                Debug.Log("Host as: " + characterPrefabIndex);
+            
+            } 
+        }
         //  else
         //  {
         //  if (NetworkManager.Singleton.IsHost)
@@ -205,7 +240,7 @@ public class LoginManagerScript : MonoBehaviour
     {
         
         string username = userNameInputField.GetComponent<TMP_InputField>().text;
-        string Passcode = PassCodeInputField.GetComponent<TMP_InputField>().text;
+        string Passcode = passCodeInputField.GetComponent<TMP_InputField>().text;
         
         string connectionData = username + "|" + Passcode;
         NetworkManager.Singleton.NetworkConfig.ConnectionData = System.Text.Encoding.ASCII.GetBytes(connectionData);
@@ -218,17 +253,13 @@ public class LoginManagerScript : MonoBehaviour
     {
         string clientData = data[0];
         string clientPassword = data[1];
-        bool isApprove = !System.String.Equals(clientData.Trim(), hostData.Trim());
+        bool isApprove = !System.String.Equals(clientData.Trim(), hostData.Trim()) ? false : true;
         if (isApprove && (System.String.Equals(hostPasscode.Trim(), clientPassword.Trim()))){
-            
-           
             return true;
-            
         }
         else 
         {
             return false;
-            
         }
        
 
@@ -237,10 +268,13 @@ public class LoginManagerScript : MonoBehaviour
     {
         Vector3 spawnpos = Vector3.zero;
         Quaternion spawnRot = Quaternion.identity;
-        int SpawnerRandom = Random.Range(0,Spawner.Length);
+
+        int SpawnerRandom = Random.Range(0,spawnPoint.Length);
+
         if (clientId == NetworkManager.Singleton.LocalClientId)
         {
-            spawnpos = Spawner[SpawnerRandom].transform.position; spawnRot = Spawner[SpawnerRandom].transform.rotation;
+            spawnpos = spawnPoint[SpawnerRandom].transform.position; 
+            spawnRot = spawnPoint[SpawnerRandom].transform.rotation;
         }
         else
         {
@@ -259,4 +293,26 @@ public class LoginManagerScript : MonoBehaviour
         response.Rotation = spawnRot;
     }
     
+    public void Play() {
+        SetUILoginVisible(false);
+        SetUIMainMenuVisible(true);
+    }
+
+    public void Settings() {
+        settingsPanel.SetActive(true);
+        SetUIMainMenuVisible(true);
+    }
+
+    public void Quit() {
+        Application.Quit();
+    }
+
+    public void Back() {
+        settingsPanel.SetActive(false);
+        SetUIMainMenuVisible(false);
+
+        loginPanel.SetActive(false);
+        leaveButton.SetActive(false);
+        scorePanel.SetActive(false);
+    }
 }
