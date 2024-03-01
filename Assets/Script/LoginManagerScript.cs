@@ -253,7 +253,7 @@ public class LoginManagerScript : MonoBehaviour
     {
         string clientData = data[0];
         string clientPassword = data[1];
-        bool isApprove = !System.String.Equals(clientData.Trim(), hostData.Trim()) ? false : true;
+        bool isApprove = !System.String.Equals(clientData.Trim(), hostData.Trim());
         if (isApprove && (System.String.Equals(hostPasscode.Trim(), clientPassword.Trim()))){
             return true;
         }

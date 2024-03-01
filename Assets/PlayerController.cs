@@ -37,7 +37,15 @@ public class PlayerController : NetworkBehaviour
         {
             playerCam.SetActive(true);
         }
+        if (canMove == true) { 
         PlayerMovementing();
+        }
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            canMove = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
     }
 
     void PlayerMovementing()
