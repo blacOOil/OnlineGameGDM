@@ -94,6 +94,12 @@ public class LoginManagerScript : MonoBehaviour
         SetUILoginVisible(false);
     }
 
+    // public void UseEscToDisconnectedServer() {
+    //     if (Input.GetKeyDown(KeyCode.Escape)) {
+    //         leaveButton.SetActive(false);
+    //     }
+    // }
+
     public void SetUILoginVisible(bool isUserLogin) {
         if (isUserLogin) {
             loginPanel.SetActive(false);
