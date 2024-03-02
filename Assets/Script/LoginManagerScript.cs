@@ -43,7 +43,7 @@ public class LoginManagerScript : MonoBehaviour
     }
 
     private void Update() {
-        UseEscToDisconnectedServer();
+        UseTabToDisconnectedServer();
         UpdateCursorVisibility();
     }
 
@@ -138,11 +138,11 @@ public class LoginManagerScript : MonoBehaviour
         }
     }
 
-    public void UseEscToDisconnectedServer() {
-        if (Input.GetKeyDown(KeyCode.Escape)) {
+    public void UseTabToDisconnectedServer() {
+        if (Input.GetKeyDown(KeyCode.Tab)) {
             bool currentStateLeaveButton = leaveButton.activeSelf;
             leaveButton.SetActive(!currentStateLeaveButton);
-
+            
             // if (isGamePaused) {
             //     ContinueGame();
             //     Debug.Log("Game isn't Paused");
@@ -162,6 +162,8 @@ public class LoginManagerScript : MonoBehaviour
         } else {
             Cursor.lockState = isCursorVisible ? CursorLockMode.None : CursorLockMode.Locked;
             Cursor.visible = isCursorVisible;
+
+
         }
     }
 
