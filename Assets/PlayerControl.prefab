@@ -344,12 +344,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Controller: {fileID: 2183506836474407731}
-  speed: 10
+  speed: 20
   runSpeed: 0
   ObjectiveCollected: 0
   mouseSensitivity: 50
   playerCam: {fileID: 8345938555607996387}
-  lookSpeed: 1
+  lookSpeed: 3
   lookXLimit: 45
   canMove: 1
 --- !u!65 &8791629369941129397
