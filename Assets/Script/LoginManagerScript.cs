@@ -28,6 +28,8 @@ public class LoginManagerScript : MonoBehaviour
     public GameObject backButton;
 
     public TMP_Dropdown ColorSelector;
+
+    private bool isGamePaused = false;
    
     private bool isApproveConnection = false;
     [Command("set-approve")]
@@ -37,8 +39,14 @@ public class LoginManagerScript : MonoBehaviour
         NetworkManager.Singleton.OnServerStarted += HandleServerStarted;
         NetworkManager.Singleton.OnClientConnectedCallback += HandhelClientConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback += HandleClientDisconnect;
-        SetUIMainMenuVisible(false);
+        SetUIMainMenuVisible(true);
     }
+
+    private void Update() {
+        UseEscToDisconnectedServer();
+        UpdateCursorVisibility();
+    }
+
     public void CharacterSelect(int val)
     {
         int selectedValue = ColorSelector.GetComponent<TMP_Dropdown>().value;
@@ -94,16 +102,20 @@ public class LoginManagerScript : MonoBehaviour
         SetUILoginVisible(false);
     }
 
-    // public void UseEscToDisconnectedServer() {
-    //     if (Input.GetKeyDown(KeyCode.Escape)) {
-    //         leaveButton.SetActive(false);
-    //     }
+    // public void PauseGame() {
+    //     Time.timeScale = 0;
+    //     isGamePaused = true;
+   
+    // }
+    // public void ContinueGame() {
+    //     Time.timeScale = 1;
+    //     isGamePaused = false;
     // }
 
     public void SetUILoginVisible(bool isUserLogin) {
         if (isUserLogin) {
             loginPanel.SetActive(false);
-            leaveButton.SetActive(true);
+            leaveButton.SetActive(false);
             scorePanel.SetActive(true);
         } else {
             loginPanel.SetActive(true);
@@ -112,17 +124,44 @@ public class LoginManagerScript : MonoBehaviour
         }
     }
 
-    public void SetUIMainMenuVisible(bool isUserLogin) {
-        if (isUserLogin) {
-            mainmenuPanel.SetActive(false);
-            playButton.SetActive(false);
-            settingsButton.SetActive(false);
-            quitButton.SetActive(false);
-        } else {
+    public void SetUIMainMenuVisible(bool whenGameStart) {
+        if (whenGameStart) {
             mainmenuPanel.SetActive(true);
             playButton.SetActive(true);
             settingsButton.SetActive(true);
             quitButton.SetActive(true);
+        } else {
+            mainmenuPanel.SetActive(false);
+            playButton.SetActive(false);
+            settingsButton.SetActive(false);
+            quitButton.SetActive(false);
+        }
+    }
+
+    public void UseEscToDisconnectedServer() {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            bool currentStateLeaveButton = leaveButton.activeSelf;
+            leaveButton.SetActive(!currentStateLeaveButton);
+
+            // if (isGamePaused) {
+            //     ContinueGame();
+            //     Debug.Log("Game isn't Paused");
+            // } else {
+            //     PauseGame();
+            //     Debug.Log("Game is Paused");
+            // }
+        }
+    }
+    
+    private void UpdateCursorVisibility() {
+        bool isCursorVisible = leaveButton.activeSelf;
+
+        if (mainmenuPanel.activeSelf || loginPanel.activeSelf || settingsPanel.activeSelf) {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        } else {
+            Cursor.lockState = isCursorVisible ? CursorLockMode.None : CursorLockMode.Locked;
+            Cursor.visible = isCursorVisible;
         }
     }
 
@@ -301,12 +340,12 @@ public class LoginManagerScript : MonoBehaviour
     
     public void Play() {
         SetUILoginVisible(false);
-        SetUIMainMenuVisible(true);
+        SetUIMainMenuVisible(false);
     }
 
     public void Settings() {
         settingsPanel.SetActive(true);
-        SetUIMainMenuVisible(true);
+        SetUIMainMenuVisible(false);
     }
 
     public void Quit() {
@@ -315,7 +354,7 @@ public class LoginManagerScript : MonoBehaviour
 
     public void Back() {
         settingsPanel.SetActive(false);
-        SetUIMainMenuVisible(false);
+        SetUIMainMenuVisible(true);
 
         loginPanel.SetActive(false);
         leaveButton.SetActive(false);
