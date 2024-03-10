@@ -50,25 +50,24 @@ public class PlayerController : NetworkBehaviour
 
     void PlayerMovementing()
     {
-        if (IsOwnedByServer || IsClient) // Combined condition for server and client
+        if (IsOwnedByServer || IsClient)
         {
-            Debug.Log("Moving...");
-           rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
-           rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
+            // Handle rotation
+            rotationX += -Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+            rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
             playerCam.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-            transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+            transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime, 0);
 
+            // Handle movement
             Vector3 forward = transform.forward;
             Vector3 right = transform.right;
 
             bool isRunning = Input.GetKey(KeyCode.LeftShift);
-            float curSpeedX = canMove ? (isRunning ? runSpeed : speed) * Input.GetAxis("Vertical") : 0;
-            float curSpeedY = canMove ? (isRunning ? runSpeed : speed) * Input.GetAxis("Horizontal") : 0;
+            float curSpeedX = (isRunning ? runSpeed : speed) * Input.GetAxis("Vertical") * Time.deltaTime;
+            float curSpeedY = (isRunning ? runSpeed : speed) * Input.GetAxis("Horizontal") * Time.deltaTime;
 
-            float movementDirectionY = moveDirection.y;
-            moveDirection = (forward * curSpeedX) + (right * curSpeedY);
-            transform.Translate(moveDirection * Time.deltaTime,Space.Self);
-           
+            Vector3 movement = forward * curSpeedX + right * curSpeedY;
+            transform.Translate(movement, Space.World);
         }
     }
 

@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3192165418
+  GlobalObjectIdHash: 2818427836
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -266,7 +266,7 @@ MonoBehaviour:
   speed: 20
   runSpeed: 0
   ObjectiveCollected: 0
-  mouseSensitivity: 50
+  mouseSensitivity: 100
   playerCam: {fileID: 8345938555607996387}
   lookSpeed: 3
   lookXLimit: 45
