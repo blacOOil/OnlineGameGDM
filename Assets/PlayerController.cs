@@ -20,9 +20,11 @@ public class PlayerController : NetworkBehaviour
 
     float rotationX = 0;
     public bool canMove = true;
+    Rigidbody rb;
 
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         playerCam.SetActive(false);
         runSpeed = speed + 10;
         canMove = true;
@@ -59,15 +61,18 @@ public class PlayerController : NetworkBehaviour
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime, 0);
 
             // Handle movement
-            Vector3 forward = transform.forward;
-            Vector3 right = transform.right;
+            Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            moveDirection = transform.TransformDirection(moveDirection).normalized;
 
             bool isRunning = Input.GetKey(KeyCode.LeftShift);
             float curSpeedX = (isRunning ? runSpeed : speed) * Input.GetAxis("Vertical") * Time.deltaTime;
             float curSpeedY = (isRunning ? runSpeed : speed) * Input.GetAxis("Horizontal") * Time.deltaTime;
 
-            Vector3 movement = forward * curSpeedX + right * curSpeedY;
-            transform.Translate(movement, Space.World);
+       
+            Vector3 velocity = moveDirection * speed ;
+            velocity.y = rb.velocity.y; // Maintain current vertical velocity
+
+            rb.velocity = velocity;
         }
     }
 
