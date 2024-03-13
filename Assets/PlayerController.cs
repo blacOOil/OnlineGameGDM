@@ -5,8 +5,9 @@ using Unity.Netcode;
 
 public class PlayerController : NetworkBehaviour
 {
+
+    //  public CharacterController Controller;
     
-    public CharacterController Controller;
     public float speed;
     public float runSpeed;
     public float ObjectiveCollected = 0;
@@ -93,5 +94,7 @@ public class PlayerController : NetworkBehaviour
             Debug.Log("Objective collision! Total: " + ObjectiveCollected);
         }
     }
+
+   
 
 }

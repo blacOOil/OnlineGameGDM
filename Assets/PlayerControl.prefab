@@ -504,6 +504,7 @@ GameObject:
   - component: {fileID: 6160971713452103622}
   - component: {fileID: -2971058836966198569}
   - component: {fileID: -4165258931449888101}
+  - component: {fileID: 4357780189528755925}
   m_Layer: 0
   m_Name: PlayerControl
   m_TagString: Player
@@ -562,7 +563,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd2b67c7e07e7984d8f332305dd472f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Controller: {fileID: 2183506836474407731}
   speed: 20
   runSpeed: 0
   ObjectiveCollected: 0
@@ -690,6 +690,19 @@ CapsuleCollider:
   m_Height: 3.3205612
   m_Direction: 1
   m_Center: {x: -0.02224207, y: 1.067547, z: -0.33283877}
+--- !u!114 &4357780189528755925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2155909233643498468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c5aca6a3ccfccc4f9cc37e7aa02242f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  phone: {fileID: 5437015659135217601}
 --- !u!1 &4262731607360837606
 GameObject:
   m_ObjectHideFlags: 0
@@ -835,6 +848,7 @@ GameObject:
   - component: {fileID: 5668549189289780979}
   - component: {fileID: 3969524824057364752}
   - component: {fileID: 5972532175065924431}
+  - component: {fileID: 5437015659135217601}
   m_Layer: 5
   m_Name: Phone
   m_TagString: Untagged
@@ -860,7 +874,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 606, y: -242}
+  m_AnchoredPosition: {x: 606, y: -837}
   m_SizeDelta: {x: -414.9725, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3969524824057364752
@@ -901,6 +915,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &5437015659135217601
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506767801300613659}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2730a427748a9a44d880c8ab21158691, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5752641243589723028
 GameObject:
   m_ObjectHideFlags: 0
