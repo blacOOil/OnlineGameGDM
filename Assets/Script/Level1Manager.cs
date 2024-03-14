@@ -5,10 +5,15 @@ using Unity.Netcode;
 
 public class Level1Manager : NetworkBehaviour
 {
+    [Header("Obj&Position")]
     public Transform[] NetworkObjectSpawPoint;
     public GameObject[] NetworkLevelGameObject;
+
+    
     private float LevelStage = 0;
-    private float[][] SpawningIdex;
+    
+    [Header("Spawn Properties")]
+    public float[][] SpawningIdex;
     public float[] howmanyObjUneed;
     void FixedUpdate()
     {
