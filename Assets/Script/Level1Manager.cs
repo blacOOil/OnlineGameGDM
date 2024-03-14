@@ -7,16 +7,17 @@ public class Level1Manager : NetworkBehaviour
 {
     public Transform[] NetworkObjectSpawPoint;
     public GameObject[] NetworkLevelGameObject;
-    private float LevelStage = 1; 
+    private float LevelStage = 0;
+    private float[][] SpawningIdex;
+    public float[] howmanyObjUneed;
     void FixedUpdate()
     {
-        if(LevelStage == 1)
+        if(LevelStage == 0)
         {
-            ServerObjectSpawnObj(0,0); // Spawn firt object
-            ServerObjectSpawnObj(1, 1); // Spawn Second Object
-            LevelStage = 1.5f; //make some change in Level Stage to prevent from spawn too many
+            SpawningOrderPerStage(LevelStage);
+            LevelStage = 0.5f; //make some change in Level Stage to prevent from spawn too many
         }
-        if(LevelStage == 2) //Spawn or event you want it to happen in stage 2
+        if(LevelStage == 1) //Spawn or event you want it to happen in stage 2
         {
 
         }
@@ -26,5 +27,14 @@ public class Level1Manager : NetworkBehaviour
         GameObject ObjectPrefab = NetworkLevelGameObject[GameObjectId]; 
         Transform SpanwPositon = NetworkObjectSpawPoint[SpawnPosionId];
         GameObject ServerObj = Instantiate(ObjectPrefab, SpanwPositon.position, SpanwPositon.rotation);
+    }
+    public void SpawningOrderPerStage(float LevelStage)
+    {
+        for (float i = LevelStage; i <= howmanyObjUneed[(int)LevelStage]; i++)
+        {
+
+            int x = (int)i;
+            ServerObjectSpawnObj(x, x);
+        }
     }
 }
