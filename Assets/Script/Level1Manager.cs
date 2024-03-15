@@ -15,6 +15,7 @@ public class Level1Manager : NetworkBehaviour
     [Header("Spawn Properties")]
     public float[][] SpawningIdex;
     public float[] howmanyObjUneed;
+
     void FixedUpdate()
     {
         if(LevelStage == 0)
@@ -24,7 +25,8 @@ public class Level1Manager : NetworkBehaviour
         }
         if(LevelStage == 1) //Spawn or event you want it to happen in stage 2
         {
-
+            SpawningOrderPerStage(LevelStage);
+            LevelStage = 1.5f;
         }
     }
     public void ServerObjectSpawnObj(int GameObjectId,int SpawnPosionId)
@@ -35,11 +37,18 @@ public class Level1Manager : NetworkBehaviour
     }
     public void SpawningOrderPerStage(float LevelStage)
     {
-        for (float i = LevelStage; i <= howmanyObjUneed[(int)LevelStage]; i++)
+        if (LevelStage == 0)
         {
-
-            int x = (int)i;
-            ServerObjectSpawnObj(x, x);
+            for (float i = LevelStage; i <= howmanyObjUneed[0]; i++)
+            {
+                int x = (int)i;
+                ServerObjectSpawnObj(x, x);
+            }
         }
+        if(LevelStage == 1)
+        {
+            
+        }
+
     }
 }
